@@ -15,7 +15,7 @@ public class PlayerInputController : Controller
         // InputActionPhase.Started 처음 버튼을 입력했을 때
         if (context.phase == InputActionPhase.Performed)
         {
-            Debug.Log($"PlayerInputController.cs - OnMoveInput() - context.phase: {context.phase}, context.ReadValue<Vector3>(): {context.ReadValue<Vector3>()}, context: {context}");
+            //Debug.Log($"PlayerInputController.cs - OnMoveInput() - context.phase: {context.phase}, context.ReadValue<Vector3>(): {context.ReadValue<Vector3>()}, context: {context}");
             _curMovementInput = context.ReadValue<Vector3>().normalized;
 
 
@@ -27,7 +27,7 @@ public class PlayerInputController : Controller
         if (context.phase == InputActionPhase.Canceled)
         {
             //_isMoving = false;
-            Debug.Log($"PlayerInputController.cs - OnMoveInput() - context.phase: {context.phase}");
+            //Debug.Log($"PlayerInputController.cs - OnMoveInput() - context.phase: {context.phase}");
             _curMovementInput = Vector3.zero;
 
 

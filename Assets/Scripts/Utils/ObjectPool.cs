@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    public static ObjectPool Instance;
+
+
     // 오브젝트 풀 데이터를 정의할 데이터 모음 정의
     [System.Serializable]
     public class Pool
@@ -23,6 +26,8 @@ public class ObjectPool : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
+
         // 인스펙터창의 Pools를 바탕으로 오브젝트풀을 만들 것. 
         // 오브젝트풀은 관리할 프리펩마다 따로
         // pool size를 넘어가면 가장 먼저 활성화된 오브젝트를 끄고 재할당.
