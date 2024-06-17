@@ -27,7 +27,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Movement.cs - Start()");
+        //Debug.Log($"Movement.cs - Start()");
 
         // OnMoveEvent 는 입력(방향키)이있을때마다 실행된다
         // OnMoveEvent 에 Move를 호출하라고 등록함
@@ -36,7 +36,11 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        if (!GameManager.Instance.isPlaying)
+        {
+            _movementDirection = Vector3.zero;
+            //return;
+        }
   
         //FixedUpdate 는 물리 업데이트 ApplyMovement() 는 rigidbody 의 값을 변경하니까
         //실제 움직임을 처리
@@ -46,7 +50,7 @@ public class Movement : MonoBehaviour
     // player 의경우 playerInputController 에서 방향이 정해짐
     private void Move(Vector3 direction)
     {
-        Debug.Log($"Movement.cs - Move() - direction: {direction}");
+        //Debug.Log($"Movement.cs - Move() - direction: {direction}");
         _movementDirection = direction;        
                          
     }

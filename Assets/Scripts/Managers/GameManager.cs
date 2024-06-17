@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public bool isPlaying = true;
 
 
     private void Awake()
@@ -15,15 +16,16 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void GameOver()
     {
-        
+        // 게임오버 UI 오브젝트 활성화 
+        // 게임 종료
+        isPlaying = false;
+        Debug.Log("게임오버");
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool ReturnIsPlaying()
     {
-        
+        return isPlaying;
     }
 }

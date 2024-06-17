@@ -14,7 +14,7 @@ public class CarController : Controller
 
     private void Start()
     {
-        Debug.Log($"CarController.cs - Start()");
+        //Debug.Log($"CarController.cs - Start()");
 
         OnMove();
     }
@@ -29,7 +29,7 @@ public class CarController : Controller
         // 왼쪽에 있는 자동차일 경우 -> 오른쪽으로 이동
         if (_carStatHandler.CurrentStat.statSO.isLeft)
         {
-            Debug.Log($"CarController.cs - OnMove() - 왼쪽");
+            //Debug.Log($"CarController.cs - OnMove() - 왼쪽");
 
             // 오브젝트를 y축을 중심으로 90도 회전
             transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -69,12 +69,26 @@ public class CarController : Controller
         }
     }
 
-    //private void CreateCar(string tag)
-    //{
-    //    //오브젝트 풀을 이용해서 차 세팅
-    //    // Tag 을 확인하고 생성을 해라
-    //    GameObject obj = ObjectPool.Instance.SpawnFromPool(tag);
-    //}
+    // 충돌시
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("충돌");
+
+        // 충동한 오브젝트가 무엇인지 체크
+        GameObject receiver = collision.gameObject;
+
+        int player = LayerMask.NameToLayer("Player");
+
+        // 플레이어가 아닐경우 무시
+        if (receiver.layer != player)
+        {
+            return;
+        }
+
+        GameManager.Instance.GameOver();
+    }
+
+   
 
 
 }

@@ -52,6 +52,12 @@ public class SpawnManger : MonoBehaviour
 
         while (true)
         {
+            // 플레이 중이 아니라면 차 스폰 정지
+            if (!GameManager.Instance.isPlaying)
+            {
+                yield return new WaitUntil(GameManager.Instance.ReturnIsPlaying);
+            }
+
             int randomCar = Random.Range(0, 2);
             //Debug.Log($"SpawnManger.cs - SpawnCars() - while, currentSpawnCount: {currentSpawnCount}, randomCar: {randomCar}, time: {Time.time}");
 
