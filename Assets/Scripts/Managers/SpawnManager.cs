@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManger : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
-    public static SpawnManger Instance;
-
+    
     // 지금 몇개 생성 했는지
     public int currentSpawnCount = 0;
     // 몇개 생성해야하는지
@@ -24,7 +23,7 @@ public class SpawnManger : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        
 
         // 생성위치를 하나하나 다 등록해놓고 쓰는 것보다 같은 부모 아래에 두고 부모하나만 등록해서 사용
         // spawnPositionsRoot 오브젝트 자식으로 생성 위치 오브젝트를 미리 만들어둔 만큼 리스트에 추가된다(2개)
@@ -39,9 +38,9 @@ public class SpawnManger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"SpawnManger.cs - Start()");
-
-        StartCoroutine(SpawnCars());        
+        //Debug.Log($"SpawnManger.cs - Start()");
+      
+        StartCoroutine(SpawnCars());
         //SpawnCars();
     }
 
@@ -86,9 +85,11 @@ public class SpawnManger : MonoBehaviour
         }
     }
 
+    // SpawnCar를 할때 오브젝트 풀의 차 프리펩을 충분히 만들어 두지 않으면
+    // 재활용 되기때문에 currentSpawnCount 만 올라가는 문제가 발생한다
     private void SpawnCar(float num)
     {
-        
+        GameObject obj;
 
         if (num == 0)
         {
@@ -98,12 +99,13 @@ public class SpawnManger : MonoBehaviour
 
             // 오브젝트 풀을 이용해서 차 세팅
             // Tag 을 확인하고 생성을 해라
-            GameObject obj = ObjectPool.Instance.SpawnFromPool(carTag);
+            obj = ObjectPool.Instance.SpawnFromPool(carTag);
             // 차 위치 세팅
             obj.transform.position = carPos.position;
             obj.SetActive(true);
-            currentSpawnCount++;
             //Debug.Log($"SpawnManger.cs - SpawnCars() - 차 생성, currentSpawnCount: {currentSpawnCount} time: {Time.time}");
+
+
         }
         else 
         {
@@ -113,16 +115,28 @@ public class SpawnManger : MonoBehaviour
 
             // 오브젝트 풀을 이용해서 차 세팅
             // Tag 을 확인하고 생성을 해라
-            GameObject obj = ObjectPool.Instance.SpawnFromPool(carTag);
+            obj = ObjectPool.Instance.SpawnFromPool(carTag);
             // 차 위치 세팅
             obj.transform.position = carPos.position;
-            obj.SetActive(true);
-            currentSpawnCount++;
+            obj.SetActive(true);            
             //Debug.Log($"SpawnManger.cs - SpawnCars() - 차 생성, currentSpawnCount: {currentSpawnCount} time: {Time.time}");
 
         }
 
-        
+        // 생성한 차 오브젝트에 자신을 소환한 SpawnManager가 누군지 등록
+        CarController car = obj.GetComponent<CarController>();
+        if (car != null)
+        {
+            car.SetSpawnManager(this);
+            currentSpawnCount++;
 
+        }
+
+    }
+
+
+    public void DecrementSpawnCount()
+    {
+        currentSpawnCount--;
     }
 }

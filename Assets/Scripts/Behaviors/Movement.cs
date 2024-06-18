@@ -35,7 +35,8 @@ public class Movement : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    {   
+        // 플레이 중이 아니라면 이동 안함
         if (!GameManager.Instance.isPlaying)
         {
             _movementDirection = Vector3.zero;

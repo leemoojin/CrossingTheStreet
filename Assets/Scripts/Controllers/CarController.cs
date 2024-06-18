@@ -7,6 +7,8 @@ public class CarController : Controller
     //어디서 차가 생성될지 지정
     [SerializeField] private Transform _carSpawnPosition;
 
+    private SpawnManager _spawnManager;
+
     private void Awake()
     {
         _carStatHandler = GetComponent<CharacterStatHandler>();
@@ -54,7 +56,12 @@ public class CarController : Controller
             {
                 // 사용이 끝난 오브젝트 끄기
                 gameObject.SetActive(false);
-                SpawnManger.Instance.currentSpawnCount--;
+
+                // SpawnManager에서 현재 소환된 차 숫자를 감소
+                if (_spawnManager != null)
+                {
+                    _spawnManager.DecrementSpawnCount();
+                }
             }
         }
         else 
@@ -63,7 +70,11 @@ public class CarController : Controller
             {
                 // 사용이 끝난 오브젝트 끄기
                 gameObject.SetActive(false);
-                SpawnManger.Instance.currentSpawnCount--;
+                
+                if (_spawnManager != null)
+                {
+                    _spawnManager.DecrementSpawnCount();
+                }
 
             }
         }
@@ -88,7 +99,10 @@ public class CarController : Controller
         GameManager.Instance.GameOver();
     }
 
-   
+    // 자신을 소환한 SpawnManager를 등록
+    public void SetSpawnManager(SpawnManager manager)
+    {
+        _spawnManager = manager;
+    }
 
-
-}
+ }
